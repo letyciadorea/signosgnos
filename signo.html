@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}{{ s.nome }} – Descubra seu Signo{% endblock %}
+{% block content %}
+<article class="elem-{{ s.elemento|lower }}">
+  <header class="text-center mb-4">
+    {% if nasc %}<p class="eyebrow">Nascido em {{ nasc }}, seu signo é</p>{% endif %}
+    <div class="simbolo-grande">{{ s.simbolo }}</div>
+    <h1 class="display-3 title">{{ s.nome }}</h1>
+    <p class="datas">{{ '%02d' % s.inicio_dia }}/{{ '%02d' % s.inicio_mes }} a {{ '%02d' % s.fim_dia }}/{{ '%02d' % s.fim_mes }}</p>
+  </header>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <section class="card-glass p-4 mb-4">
+        <h2 class="h5 section-title">Sobre o signo</h2>
+        <p class="mb-0">{{ s.descricao }}</p>
+      </section>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <section class="card-glass p-4 h-100">
+            <h2 class="h5 section-title">Pontos fortes</h2>
+            {% for p in s.pontos_fortes.split(',') %}<span class="chip chip-forte">{{ p.strip() }}</span>{% endfor %}
+          </section>
+        </div>
+        <div class="col-md-6">
+          <section class="card-glass p-4 h-100">
+            <h2 class="h5 section-title">Pontos de atenção</h2>
+            {% for p in s.pontos_fracos.split(',') %}<span class="chip chip-fraco">{{ p.strip() }}</span>{% endfor %}
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <aside class="col-lg-4">
+      <section class="card-glass p-4">
+        <h2 class="h5 section-title">Ficha astral</h2>
+        <ul class="list-unstyled ficha mb-0">
+          <li><span>Elemento</span><strong>{{ s.elemento }}</strong></li>
+          <li><span>Modalidade</span><strong>{{ s.modalidade }}</strong></li>
+          <li><span>Planeta regente</span><strong>{{ s.regente }}</strong></li>
+          <li><span>Cor</span><strong>{{ s.cor }}</strong></li>
+          <li><span>Pedra</span><strong>{{ s.pedra }}</strong></li>
+          <li><span>Número da sorte</span><strong>{{ s.numero_sorte }}</strong></li>
+          <li><span>Combina com</span><strong>{{ s.compatibilidade }}</strong></li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <div class="text-center mt-5">
+    <a href="{{ url_for('index') }}" class="btn btn-outline-gold btn-lg">← Consultar outra data</a>
+  </div>
+</article>
+{% endblock %}

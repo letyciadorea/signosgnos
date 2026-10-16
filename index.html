@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero text-center">
+  <p class="eyebrow">Astrologia ao seu alcance</p>
+  <h1 class="display-4 title">Descubra o seu signo</h1>
+  <p class="lead mb-4">Informe sua data de nascimento e conheça as principais características do seu signo zodiacal.</p>
+
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-5">
+      <form class="card-glass p-4" method="post" action="{{ url_for('descobrir') }}" novalidate>
+        <label for="data_nascimento" class="form-label fw-semibold">Data de nascimento</label>
+        <input type="date" class="form-control form-control-lg mb-3" id="data_nascimento"
+               name="data_nascimento" min="1900-01-01" max="{{ hoje }}" required>
+        <div class="invalid-feedback mb-2">Selecione uma data válida.</div>
+        <button type="submit" class="btn btn-gold btn-lg w-100">Descobrir meu signo</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="mt-5">
+  <h2 class="h5 text-center section-title mb-3">Os 12 signos</h2>
+  <div class="row g-3 row-cols-2 row-cols-md-4 row-cols-lg-6">
+    {% for s in signos %}
+    <div class="col">
+      <a class="mini-signo elem-{{ s.elemento|lower }}" href="{{ url_for('signo', slug=s.slug) }}">
+        <span class="mini-simbolo">{{ s.simbolo }}</span>
+        <strong>{{ s.nome }}</strong>
+        <small>{{ '%02d' % s.inicio_dia }}/{{ '%02d' % s.inicio_mes }} – {{ '%02d' % s.fim_dia }}/{{ '%02d' % s.fim_mes }}</small>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<script>
+  // Validação simples no cliente (o servidor valida novamente)
+  document.querySelector("form").addEventListener("submit", function (e) {
+    const campo = document.getElementById("data_nascimento");
+    if (!campo.value) {
+      e.preventDefault();
+      campo.classList.add("is-invalid");
+    }
+  });
+</script>
+{% endblock %}
